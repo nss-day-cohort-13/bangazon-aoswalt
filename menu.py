@@ -26,5 +26,20 @@ def do_menu(heading, menu):     # pragama: no cover
     return menu[opt_strings.index(matches[0])]
 
 
+def prompt(prompt_msg):     # pragma: no cover
+    """
+    Prompt the user for input
+
+    Arguments:
+        prompt_msg      the prompt for the input
+
+    Returns:
+        the user's input
+    """
+
+    print('\n' + prompt_msg)
+    return input('> ')
+
+
 if __name__ == '__main__':
     print(do_menu('title', [['a', 'b'], 1, 'c', 'a']))
