@@ -22,3 +22,13 @@ class User(object):
         self.full_name = full_name
         self.screen_name = screen_name
         User.next_user_id += 1
+
+
+    def __str__(self):
+        """The screen name and full name for the user"""
+        return '{} - {}'.format(self.screen_name, self.full_name)
+
+
+    def __repr__(self):
+        """The id, screen name, and full name for the user"""
+        return '{}. {} - {}'.format(self.id, self.screen_name, self.full_name)
