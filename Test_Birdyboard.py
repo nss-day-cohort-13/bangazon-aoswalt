@@ -4,16 +4,6 @@ from birdyboard import *
 
 class TestBirdyboard(unittest.TestCase):
 
-    def test_user_id_increment(self):
-        birdy = Birdy()
-
-        self.assertEqual(User.next_user_id, 1)
-
-        birdy.create_user('Test Person', 'tp')
-        birdy.create_user('John Doe', 'jd')
-
-        self.assertEqual(User.next_user_id, 3)
-
 
     def test_create_user(self):
         birdy = Birdy()
@@ -36,18 +26,6 @@ class TestBirdyboard(unittest.TestCase):
         self.assertEqual(user.id, 2)
         self.assertEqual(user.full_name, 'Some Guy')
         self.assertEqual(user.screen_name, 'guy')
-
-
-    def test_chirp_id_increment(self):
-        birdy = Birdy()
-
-        self.assertEqual(Chirp.next_chirp_id, 1)
-
-        birdy.create_chirp(1, 'An initial message')
-        birdy.create_chirp(2, 'A solid response', parent=1)
-        birdy.create_chirp(1, 'A different thread')
-
-        self.assertEqual(Chirp.next_chirp_id, 4)
 
 
     def test_get_public_chirps(self):
