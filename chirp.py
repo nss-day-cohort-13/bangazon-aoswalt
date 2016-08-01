@@ -20,6 +20,7 @@ class Chirp(object):
             to          the user_id of the chirp's recipient
             private     a boolean for the message to be private
         """
+
         self.id = Chirp.next_chirp_id
         self.author = author
         self.message = message
@@ -28,3 +29,21 @@ class Chirp(object):
         self.to = to
         self.private = private
         Chirp.next_chirp_id += 1
+
+
+    def __str__(self):
+        """Show only the message of the chirp"""
+
+        return self.message
+
+
+    def __repr__(self):
+        """Show full detail for a chirp"""
+
+        rep = '\nmsg:     {}\n'.format(self.message)
+        rep += 'from:    {}\n'.format(self.author)
+        rep += 'to:      {}\n'.format(self.to)
+        rep += 'parent:  {}\n'.format(self.parent)
+        rep += 'child:   {}\n'.format(self.child)
+        rep += 'private: {}\n'.format(self.private)
+        return rep
