@@ -13,11 +13,18 @@ class Birdy(object):
         return user
 
 
-    def create_chirp(self, author, message, parent=0, to=0, private=False):
+    def select_user(self, user_id):
+        return self.users[user_id]
+
+
+    def create_chirp(self, author, message, parent=0, child=0, to=0, private=False):
         if parent > 0:
             # set to to parent's author
             to = self.chirps[parent].id
-        chirp = Chirp(author, message, parent, to, private)
+        chirp = Chirp(author, message, parent, child, to, private)
+        if parent > 0:
+            # update parent's child
+            self.chirps[parent].child = chirp.id
         self.chirps.append(chirp)
         return chirp
 
@@ -35,6 +42,20 @@ class Birdy(object):
             c.private == True]
 
 
+    def get_chirps_with_replies(self, cur_chirp):
+        # set current chirp to start of thread
+        while cur_chirp.parent != 0:
+            cur_chirp = self.chirps[cur_chirp.parent]
+
+        # build thread starting from head
+        thread = [cur_chirp]
+        while cur_chirp.child != 0:
+            cur_chirp = self.chirps[cur_chirp.child]
+            thread.append(cur_chirp)
+
+        return thread
+
+
 class User(object):
     next_user_id = 1
 
@@ -48,11 +69,12 @@ class User(object):
 class Chirp(object):
     next_chirp_id = 1
 
-    def __init__(self, author, message, parent=0, to=0, private=False):
+    def __init__(self, author, message, parent=0, child=0, to=0, private=False):
         self.id = Chirp.next_chirp_id
         self.author = author
         self.message = message
         self.parent = parent
+        self.child = child
         self.to = to
         self.private = private
         Chirp.next_chirp_id += 1

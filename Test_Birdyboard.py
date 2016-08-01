@@ -86,8 +86,8 @@ class TestBirdyboard(unittest.TestCase):
         chirp5 = birdy.create_chirp(1, 'A followup message', parent=4)
         chirp6 = birdy.create_chirp(2, 'A later response', parent=3)
 
-        chirps = birdy.get_chirps_with_replies(initial)
-        test_chirp_list - [chirp1, chirp2, chirp3, chirp6]
+        chirps = birdy.get_chirps_with_replies(chirp3)
+        test_chirp_list = [chirp1, chirp2, chirp3, chirp6]
 
         self.assertEqual(chirps, test_chirp_list)
 
@@ -106,15 +106,18 @@ class TestBirdyboard(unittest.TestCase):
 
     def test_make_reply_public_chirp(self):
         birdy = Birdy()
-        birdy.create_chirp(1, 'An initial message')
-        chirp = birdy.create_chirp(2, 'A solid response', parent=1)
+        parent = birdy.create_chirp(1, 'An initial message')
+        reply = birdy.create_chirp(2, 'A solid response', parent=1)
 
-        self.assertNotEqual(chirp.id, 0)
-        self.assertEqual(chirp.author, 2)
-        self.assertEqual(chirp.message, 'A solid response')
-        self.assertEqual(chirp.parent, 1)
-        self.assertEqual(chirp.to, 1)
-        self.assertEqual(chirp.private, False)
+        self.assertNotEqual(reply.id, 0)
+        self.assertEqual(reply.author, 2)
+        self.assertEqual(reply.message, 'A solid response')
+        self.assertEqual(reply.parent, 1)
+        self.assertEqual(reply.child, 0)
+        self.assertEqual(reply.to, 1)
+        self.assertEqual(reply.private, False)
+
+        self.assertEqual(parent.child, 2)
 
 
     def test_make_new_private_chirp(self):
