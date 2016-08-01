@@ -6,6 +6,8 @@ class TestUser(unittest.TestCase):
 
 
     def test_user_id_increment(self):
+        User.next_user_id = 1
+        
         self.assertEqual(User.next_user_id, 1)
 
         User('Test Person', 'tp')

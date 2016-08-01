@@ -6,6 +6,8 @@ class TestChirp(unittest.TestCase):
 
 
     def test_chirp_id_increment(self):
+        Chirp.next_chirp_id = 1
+        
         self.assertEqual(Chirp.next_chirp_id, 1)
 
         Chirp(1, 'An initial message')
