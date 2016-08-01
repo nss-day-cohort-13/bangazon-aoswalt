@@ -58,7 +58,7 @@ class TestBirdyboard(unittest.TestCase):
         chirp4 = birdy.create_chirp(1, 'A different thread')
         chirp5 = birdy.create_chirp(1, 'A followup message', parent=4)
 
-        public_threads = birdy.get_public_chirps(1)
+        public_threads = birdy.get_public_chirps()
         test_thread_list = [chirp1, chirp4]
 
         self.assertEqual(public_threads, test_thread_list)

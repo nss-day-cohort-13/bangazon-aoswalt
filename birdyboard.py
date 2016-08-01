@@ -8,11 +8,31 @@ class Birdy(object):
 
 
     def create_user(self, full_name, screen_name):
-        return User(full_name, screen_name)
+        user =  User(full_name, screen_name)
+        self.users.append(user)
+        return user
 
 
     def create_chirp(self, author, message, parent=0, to=0, private=False):
-        return Chirp(author, message, parent, to, private)
+        if parent > 0:
+            # set to to parent's author
+            to = self.chirps[parent].id
+        chirp = Chirp(author, message, parent, to, private)
+        self.chirps.append(chirp)
+        return chirp
+
+
+    def get_public_chirps(self):
+        return [c for c in self.chirps if c and
+            c.parent == 0 and
+            c.private == False]
+
+
+    def get_private_chirps(self, user_id):
+        return [c for c in self.chirps if c and
+            c.parent == 0 and
+            (c.to == user_id or c.author == user_id) and
+            c.private == True]
 
 
 class User(object):
