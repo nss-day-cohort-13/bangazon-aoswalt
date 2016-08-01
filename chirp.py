@@ -32,15 +32,16 @@ class Chirp(object):
 
 
     def __str__(self):
-        """Show only the message of the chirp"""
+        """Show only the id and message of the chirp"""
 
-        return self.message
+        return '{}. {}'.format(self.id, self.message)
 
 
     def __repr__(self):
         """Show full detail for a chirp"""
 
-        rep = '\nmsg:     {}\n'.format(self.message)
+        rep = '\nid:      {}\n'.format(self.id)
+        rep += 'msg:     {}\n'.format(self.message)
         rep += 'from:    {}\n'.format(self.author)
         rep += 'to:      {}\n'.format(self.to)
         rep += 'parent:  {}\n'.format(self.parent)

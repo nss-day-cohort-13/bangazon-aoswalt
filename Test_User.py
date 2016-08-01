@@ -20,7 +20,7 @@ class TestUser(unittest.TestCase):
 
         user = User('That Guy', 'guy')
 
-        self.assertEqual(str(user), 'guy - That Guy')
+        self.assertEqual(str(user), '1. guy - That Guy')
 
 
     def test_user_repr(self):

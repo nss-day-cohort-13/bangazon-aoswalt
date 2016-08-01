@@ -25,10 +25,10 @@ class User(object):
 
 
     def __str__(self):
-        """The screen name and full name for the user"""
-        return '{} - {}'.format(self.screen_name, self.full_name)
+        """The id, screen name, and full name for the user"""
+        return '{}. {} - {}'.format(self.id, self.screen_name, self.full_name)
 
 
     def __repr__(self):
-        """The id, screen name, and full name for the user"""
-        return '{}. {} - {}'.format(self.id, self.screen_name, self.full_name)
+        """Same as str for user"""
+        return self.__str__()

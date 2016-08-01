@@ -22,7 +22,7 @@ class TestChirp(unittest.TestCase):
 
         chirp = Chirp(1, 'A simple chirp')
 
-        self.assertEqual(str(chirp), 'A simple chirp')
+        self.assertEqual(str(chirp), '1. A simple chirp')
 
 
     def test_chirp_repr(self):
@@ -31,6 +31,7 @@ class TestChirp(unittest.TestCase):
         chirp = Chirp(1, 'A simple chirp')
 
         test_repr = '''
+id:      1
 msg:     A simple chirp
 from:    1
 to:      0
