@@ -1,45 +1,45 @@
-def do_menu(heading, menu):     # pragama: no cover
-    """
-    Show a menu and prompt for valid response
+from birdyboard import *
+from prompt import *
 
-    Arguments:
-        heading     the heading for the menu
-        menu        the list of menu options
-
-    Returns:
-        the chosen option
-    """
-
-    opt_strings = [str(opt) for opt in menu]
-
-    matches = []
-    while len(matches) != 1:
-        print(heading)
-        [print(opt) for opt in opt_strings]
-        choice = input('\n> ')
-        matches = [opt for opt in opt_strings if choice in opt]
-
-        if len(matches) == 0: print('No matches found.\n')
-        if len(matches) > 1: print('Multiple matches found.\n')
-
-    # use the index of the matched choice to get the actual value from the menu
-    return menu[opt_strings.index(matches[0])]
+class Menu(object):     # pragma: no cover
 
 
-def prompt(prompt_msg):     # pragma: no cover
-    """
-    Prompt the user for input
+    def __init__(self):
+        self.birdy = Birdy()
 
-    Arguments:
-        prompt_msg      the prompt for the input
 
-    Returns:
-        the user's input
-    """
+    def main(self):
+        while True:
+            main_menu = {
+                '1. New User Account': self.new_user_prompt,
+                '2. Select User': self.select_user_prompt,
+                '3. View Chirps': self.view_chirps_prompt,
+                '4. Public Chirp': self.public_chirp_prompt,
+                '5. Private Chirp': self.private_chirp_prompt,
+                '6. Exit': exit}
 
-    print('\n' + prompt_msg)
-    return input('> ')
+            main_menu[show_menu('Birdyboard', sorted(main_menu.keys()))]()
+
+
+    def new_user_prompt(self):
+        print('prompt for new user')
+
+
+    def select_user_prompt(self):
+        print('prompt for select user')
+
+
+    def view_chirps_prompt(self):
+        print('prompt for view chirps')
+
+
+    def public_chirp_prompt(self):
+        print('prompt for public chirp')
+
+
+    def private_chirp_prompt(self):
+        print('prompt for private chirp')
 
 
 if __name__ == '__main__':
-    print(do_menu('title', [['a', 'b'], 1, 'c', 'a']))
+    Menu().main()
