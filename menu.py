@@ -85,6 +85,10 @@ class Menu(object):     # pragma: no cover
     def view_private_chirps_prompt(self):
         """Show private chirps and prompt for response"""
 
+        if not self.birdy.current_user:
+            print('\nPlease select a user first.')
+            return
+
         private_chirps = self.birdy.get_private_chirps(self.birdy.current_user.id)
 
         # append None to use as a back option
@@ -100,6 +104,10 @@ class Menu(object):     # pragma: no cover
     def public_chirp_prompt(self):
         """Prompt for a new public chirp"""
 
+        if not self.birdy.current_user:
+            print('\nPlease select a user first.')
+            return
+
         message = prompt('Enter chirp message')
 
         if len(message) > 0:
@@ -108,6 +116,10 @@ class Menu(object):     # pragma: no cover
 
     def private_chirp_prompt(self):
         """Prompt for a target and new private chirp"""
+
+        if not self.birdy.current_user:
+            print('\nPlease select a user first.')
+            return
 
         user_list = [usr for usr in self.birdy.users
                         if usr and usr != self.birdy.current_user]
@@ -143,6 +155,10 @@ class Menu(object):     # pragma: no cover
         option = show_menu('---', options_menu)
 
         if not option: return
+
+        if not self.birdy.current_user:
+            print('\nPlease select a user first.')
+            return
 
         # execute option on last chirp in thread
         parent_chirp = thread[-1]
