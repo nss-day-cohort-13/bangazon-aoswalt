@@ -16,10 +16,11 @@ class Menu(object):     # pragma: no cover
             main_menu = {
                 '1. New User Account': self.new_user_prompt,
                 '2. Select User': self.select_user_prompt,
-                '3. View Chirps': self.view_chirps_prompt,
-                '4. Public Chirp': self.public_chirp_prompt,
-                '5. Private Chirp': self.private_chirp_prompt,
-                '6. Exit': exit}
+                '3. View Public Chirps': self.view_public_chirps_prompt,
+                '4. View Private Chirps': self.view_private_chirps_prompt,
+                '5. Create Public Chirp': self.public_chirp_prompt,
+                '6. Create Private Chirp': self.private_chirp_prompt,
+                '7. Exit': exit}
 
             choice = show_menu(heading, sorted(main_menu.keys()))
             main_menu[choice]()
@@ -39,12 +40,31 @@ class Menu(object):     # pragma: no cover
         print('\nLogged in as {}\n'.format(self.birdy.current_user.screen_name))
 
 
-    def view_chirps_prompt(self):
-        print('prompt for view chirps')
+    def view_public_chirps_prompt(self):
+        public_chirps = self.birdy.get_public_chirps()
+
+        # append None to use as a back option
+        public_chirps.append(None)
+
+        thread_head = show_menu('<< Public Chirps >>', public_chirps)
+        print(repr(thread_head))
+
+
+    def view_private_chirps_prompt(self):
+        private_chirps = self.birdy.get_private_chirps(self.birdy.current_user.id)
+
+        # append None to use as a back option
+        private_chirps.append(None)
+
+        thread_head = show_menu('<< Private Chirps >>', private_chirps)
+        print(repr(thread_head))
 
 
     def public_chirp_prompt(self):
-        print('prompt for public chirp')
+        message = prompt('Enter chirp message')
+
+        if len(message) > 0:
+            self.birdy.create_chirp(self.birdy.current_user.id, message)
 
 
     def private_chirp_prompt(self):
