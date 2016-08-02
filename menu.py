@@ -68,7 +68,22 @@ class Menu(object):     # pragma: no cover
 
 
     def private_chirp_prompt(self):
-        print('prompt for private chirp')
+        user_list = [usr for usr in self.birdy.users
+                        if usr and usr != self.birdy.current_user]
+
+        # append None to use as a back option a
+        user_list.append(None)
+
+        target = show_menu('Chirp at', user_list)
+        if target == None: return
+
+        message = prompt('Enter chirp message')
+        if len(message) > 0:
+            self.birdy.create_chirp(
+                self.birdy.current_user.id,
+                message,
+                to=target.id,
+                private=True)
 
 
 if __name__ == '__main__':
