@@ -5,6 +5,11 @@ class Birdy(object):
     """
     Manage users and chirps for the system
 
+    Properties:
+        users           all created users
+        chirps          all created chirps
+        current_user    the currently active user
+
     Methods:
         create_user                 create a new user
         select_user                 select a user from a user_id
@@ -22,10 +27,12 @@ class Birdy(object):
         User.next_user_id = 1
         Chirp.next_chirp_id = 1
 
+        self.current_user = None
+
 
     def create_user(self, full_name, screen_name):
         """
-        Create a new user
+        Create a new user and set as current user
 
         Arguments:
             full_name       full name of user
@@ -37,21 +44,23 @@ class Birdy(object):
 
         user =  User(full_name, screen_name)
         self.users.append(user)
-        return user
+        self.current_user = user
+        return self.current_user
 
 
-    def select_user(self, user_id):
+    def select_user(self, user):
         """
-        Select a user
+        Select a user to be the current user
 
         Arguments:
-            user_id     the requested user's id
+            user    the user to be the current user
 
         Returns:
             the selected user
         """
 
-        return self.users[user_id]
+        self.current_user = user
+        return self.current_user
 
 
     def create_chirp(self, author, message, parent=0, child=0, to=0, private=False):

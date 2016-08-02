@@ -10,13 +10,17 @@ def show_menu(heading, menu):     # pragama: no cover
         the chosen option
     """
 
+    # string representations of the options
     opt_strings = [str(opt) for opt in menu]
 
+    # prompt until only 1 match
     matches = []
     while len(matches) != 1:
         print(heading)
         [print(opt) for opt in opt_strings]
         choice = input('\n> ')
+
+        # get all matches where input is in the option
         matches = [opt for opt in opt_strings if choice.lower() in opt.lower()]
 
         if len(matches) == 0: print('No matches found.\n')

@@ -10,6 +10,9 @@ class Menu(object):     # pragma: no cover
 
     def main(self):
         while True:
+            heading = '#' * 24
+            heading += '\n##' + 'Birdyboard~'.center(20) + '##\n'
+            heading += '#' * 24
             main_menu = {
                 '1. New User Account': self.new_user_prompt,
                 '2. Select User': self.select_user_prompt,
@@ -18,15 +21,22 @@ class Menu(object):     # pragma: no cover
                 '5. Private Chirp': self.private_chirp_prompt,
                 '6. Exit': exit}
 
-            main_menu[show_menu('Birdyboard', sorted(main_menu.keys()))]()
+            choice = show_menu(heading, sorted(main_menu.keys()))
+            main_menu[choice]()
 
 
     def new_user_prompt(self):
-        print('prompt for new user')
+        print('\n<< New User>>')
+        full_name = prompt('Enter full name')
+        screen_name = prompt('Enter screen name')
+        new_user = self.birdy.create_user(full_name, screen_name)
+        print('\nLogged in as {}\n'.format(self.birdy.current_user.screen_name))
 
 
     def select_user_prompt(self):
-        print('prompt for select user')
+        user = show_menu('\n<< Select User', self.birdy.users[1:])
+        self.birdy.select_user(user)
+        print('\nLogged in as {}\n'.format(self.birdy.current_user.screen_name))
 
 
     def view_chirps_prompt(self):

@@ -14,6 +14,7 @@ class TestBirdyboard(unittest.TestCase):
         self.assertEqual(user.id, 3)
         self.assertEqual(user.full_name, 'Bob Jones')
         self.assertEqual(user.screen_name, 'bobj')
+        self.assertEqual(birdy.current_user, user)
 
 
     def test_select_user(self):
@@ -26,6 +27,7 @@ class TestBirdyboard(unittest.TestCase):
         self.assertEqual(user.id, 2)
         self.assertEqual(user.full_name, 'Some Guy')
         self.assertEqual(user.screen_name, 'guy')
+        self.assertEqual(birdy.current_user, user)
 
 
     def test_get_public_chirps(self):
