@@ -16,7 +16,7 @@ def show_menu(heading, menu):     # pragama: no cover
     # prompt until only 1 match
     matches = []
     while len(matches) != 1:
-        print(heading)
+        print('\n' + heading)
         [print(opt) for opt in opt_strings]
         choice = input('\n> ')
 

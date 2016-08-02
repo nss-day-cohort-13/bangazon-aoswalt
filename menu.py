@@ -35,7 +35,10 @@ class Menu(object):     # pragma: no cover
 
 
     def select_user_prompt(self):
-        user = show_menu('\n<< Select User', self.birdy.users[1:])
+        user = show_menu('\n<< Select User', self.birdy.users[1:] + [None])
+        
+        if not user: return
+
         self.birdy.select_user(user)
         print('\nLogged in as {}\n'.format(self.birdy.current_user.screen_name))
 
@@ -47,7 +50,10 @@ class Menu(object):     # pragma: no cover
         public_chirps.append(None)
 
         thread_head = show_menu('<< Public Chirps >>', public_chirps)
-        print(repr(thread_head))
+
+        if not thread_head: return
+
+        self.respond_to_chirp(thread_head)
 
 
     def view_private_chirps_prompt(self):
@@ -57,7 +63,10 @@ class Menu(object):     # pragma: no cover
         private_chirps.append(None)
 
         thread_head = show_menu('<< Private Chirps >>', private_chirps)
-        print(repr(thread_head))
+
+        if not thread_head: return
+
+        self.respond_to_chirp(thread_head)
 
 
     def public_chirp_prompt(self):
@@ -84,6 +93,33 @@ class Menu(object):     # pragma: no cover
                 message,
                 to=target.id,
                 private=True)
+
+
+    def respond_to_chirp(self, thread_head):
+        thread = self.birdy.get_chirps_with_replies(thread_head)
+        options_menu = {
+            '1. Reply': 1,
+            '2. Back': None}
+
+        # show thread and prompt for option
+        [print(chirp) for chirp in thread]
+        choice = show_menu('...', sorted(options_menu.keys()))
+        option = options_menu[choice]
+
+        if not option: return
+
+        # execute option on last chirp in thread
+        parent_chirp = thread[-1]
+
+        reply_message = prompt('Reply')
+        if len(reply_message) == 0: return
+
+        # create the reply
+        self.birdy.create_chirp(
+            self.birdy.current_user.id,
+            reply_message,
+            parent=parent_chirp.id,
+            private=parent_chirp.private)
 
 
 if __name__ == '__main__':
