@@ -2,13 +2,33 @@ from birdyboard import *
 from prompt import *
 
 class Menu(object):     # pragma: no cover
+    """
+    Manage the cli menu
+
+    Properties:
+        birdy   an instance of the Birdy program
+
+    Methods:
+        main                        show the main menu in a loop
+        new_user_prompt             prompt for new user info
+        select_user_prompt          prompt for selecting a user
+        view_public_chirps_prompt   prompt for viewing public chirps
+        view_private_chirps_prompt  prompt for viewing private chirps
+        public_chirp_prompt         prompt for creating a public chirp
+        private_chirp_prompt        prompt for creating a private chirp
+        respond_to_chirp            respond to an individual chirp
+    """
 
 
     def __init__(self):
+        """Initialize an instance of Birdy"""
+
         self.birdy = Birdy()
 
 
     def main(self):
+        """Show the main menu in a loop"""
+
         while True:
             heading = '#' * 24
             heading += '\n##' + 'Birdyboard~'.center(20) + '##\n'
@@ -27,6 +47,8 @@ class Menu(object):     # pragma: no cover
 
 
     def new_user_prompt(self):
+        """Prompt for new user information"""
+
         print('\n<< New User>>')
         full_name = prompt('Enter full name')
         screen_name = prompt('Enter screen name')
@@ -35,6 +57,8 @@ class Menu(object):     # pragma: no cover
 
 
     def select_user_prompt(self):
+        """Prompt to select a user"""
+
         user = show_menu('\n<< Select User', self.birdy.users[1:] + [None])
 
         if not user: return
@@ -44,6 +68,8 @@ class Menu(object):     # pragma: no cover
 
 
     def view_public_chirps_prompt(self):
+        """Show public chirps and prompt for response"""
+
         public_chirps = self.birdy.get_public_chirps()
 
         # append None to use as a back option
@@ -57,6 +83,8 @@ class Menu(object):     # pragma: no cover
 
 
     def view_private_chirps_prompt(self):
+        """Show private chirps and prompt for response"""
+
         private_chirps = self.birdy.get_private_chirps(self.birdy.current_user.id)
 
         # append None to use as a back option
@@ -70,6 +98,8 @@ class Menu(object):     # pragma: no cover
 
 
     def public_chirp_prompt(self):
+        """Prompt for a new public chirp"""
+
         message = prompt('Enter chirp message')
 
         if len(message) > 0:
@@ -77,6 +107,8 @@ class Menu(object):     # pragma: no cover
 
 
     def private_chirp_prompt(self):
+        """Prompt for a target and new private chirp"""
+
         user_list = [usr for usr in self.birdy.users
                         if usr and usr != self.birdy.current_user]
 
@@ -96,14 +128,19 @@ class Menu(object):     # pragma: no cover
 
 
     def respond_to_chirp(self, thread_head):
+        """
+        Show thread and prompt for reply
+
+        Arguments:
+            thread_head     the head chirp of a thread
+        """
+
         thread = self.birdy.get_chirps_with_replies(thread_head)
-        options_menu = {
-            '1. Reply': 1,
-            '2. Back': None}
+        options_menu = ['1. Reply', None]
 
         # show thread and prompt for option
         [print(chirp) for chirp in thread]
-        choice = show_menu('...', sorted(options_menu.keys()))
+        choice = show_menu('---', options_menu)
         option = options_menu[choice]
 
         if not option: return
