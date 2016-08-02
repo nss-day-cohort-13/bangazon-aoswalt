@@ -19,10 +19,10 @@ class TestBirdyboard(unittest.TestCase):
 
     def test_select_user(self):
         birdy = Birdy()
-        birdy.create_user('Test Case', 'test')
-        birdy.create_user('Some Guy', 'guy')
-        birdy.create_user('Bob Jones', 'bobj')
-        user = birdy.select_user(2)
+        user1 = birdy.create_user('Test Case', 'test')
+        user2 = birdy.create_user('Some Guy', 'guy')
+        user3 = birdy.create_user('Bob Jones', 'bobj')
+        user = birdy.select_user(user2)
 
         self.assertEqual(user.id, 2)
         self.assertEqual(user.full_name, 'Some Guy')

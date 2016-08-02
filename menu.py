@@ -36,7 +36,7 @@ class Menu(object):     # pragma: no cover
 
     def select_user_prompt(self):
         user = show_menu('\n<< Select User', self.birdy.users[1:] + [None])
-        
+
         if not user: return
 
         self.birdy.select_user(user)
