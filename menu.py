@@ -49,7 +49,7 @@ class Menu(object):     # pragma: no cover
     def new_user_prompt(self):
         """Prompt for new user information"""
 
-        print('\n<< New User>>')
+        print('\n<< New User >>')
         full_name = prompt('Enter full name')
         screen_name = prompt('Enter screen name')
         new_user = self.birdy.create_user(full_name, screen_name)
@@ -59,7 +59,7 @@ class Menu(object):     # pragma: no cover
     def select_user_prompt(self):
         """Prompt to select a user"""
 
-        user = show_menu('\n<< Select User', self.birdy.users[1:] + [None])
+        user = show_menu('\n<< Select User >>', self.birdy.users[1:] + [None])
 
         if not user: return
 
@@ -140,8 +140,7 @@ class Menu(object):     # pragma: no cover
 
         # show thread and prompt for option
         [print(chirp) for chirp in thread]
-        choice = show_menu('---', options_menu)
-        option = options_menu[choice]
+        option = show_menu('---', options_menu)
 
         if not option: return
 

@@ -1,9 +1,14 @@
 from user import *
 from chirp import *
+from quickio import *
 
 class Birdy(object):
     """
     Manage users and chirps for the system
+
+    Static properties:
+        users_file      the filename for user data storage
+        chirps_file     the filename for chirp data storage
 
     Properties:
         users           all created users
@@ -19,13 +24,16 @@ class Birdy(object):
         get_chirps_with_replies     get a full thread from any chirp in thread
     """
 
+    users_file = 'users.dat'
+    chirps_file = 'chirps.dat'
+
     def __init__(self):
         """Initialize user and chirp storage"""
 
-        self.users = [None]
-        self.chirps = [None]
-        User.next_user_id = 1
-        Chirp.next_chirp_id = 1
+        self.users = deserialize(Birdy.users_file, [None])
+        self.chirps = deserialize(Birdy.chirps_file, [None])
+        User.next_user_id = self.users[-1].id + 1 if self.users[-1] else 1
+        Chirp.next_chirp_id = self.chirps[-1].id + 1 if self.chirps[-1] else 1
 
         self.current_user = None
 
@@ -44,6 +52,7 @@ class Birdy(object):
 
         user =  User(full_name, screen_name)
         self.users.append(user)
+        serialize(Birdy.users_file, self.users)
         self.current_user = user
         return self.current_user
 
@@ -87,6 +96,7 @@ class Birdy(object):
             # update parent's child
             self.chirps[parent].child = chirp.id
         self.chirps.append(chirp)
+        serialize(Birdy.chirps_file, self.chirps)
         return chirp
 
 

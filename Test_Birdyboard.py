@@ -4,9 +4,27 @@ from birdyboard import *
 
 class TestBirdyboard(unittest.TestCase):
 
+    def make_fresh_birdy(self):
+        """
+        Initizlize a Birdy for expected defaults
+
+        Returns:
+            the fresh birdy
+        """
+
+        # define and clear test data files
+        Birdy.users_file = 'testfile_user.dat'
+        Birdy.chirps_file = 'testfile_chirp.dat'
+
+        # clear files for fresh testing
+        open(Birdy.users_file, 'w+').close()
+        open(Birdy.chirps_file, 'w+').close()
+
+        return Birdy()
+
 
     def test_create_user(self):
-        birdy = Birdy()
+        birdy = self.make_fresh_birdy()
         birdy.create_user('Test Case', 'test')
         birdy.create_user('Some Guy', 'guy')
         user = birdy.create_user('Bob Jones', 'bobj')
@@ -18,7 +36,7 @@ class TestBirdyboard(unittest.TestCase):
 
 
     def test_select_user(self):
-        birdy = Birdy()
+        birdy = self.make_fresh_birdy()
         user1 = birdy.create_user('Test Case', 'test')
         user2 = birdy.create_user('Some Guy', 'guy')
         user3 = birdy.create_user('Bob Jones', 'bobj')
@@ -31,7 +49,7 @@ class TestBirdyboard(unittest.TestCase):
 
 
     def test_get_public_chirps(self):
-        birdy = Birdy()
+        birdy = self.make_fresh_birdy()
         chirp1 = birdy.create_chirp(1, 'An initial message')
         chirp2 = birdy.create_chirp(2, 'A solid response', parent=1)
         chirp3 = birdy.create_chirp(1, 'A quick rebuttal', parent=2)
@@ -45,7 +63,7 @@ class TestBirdyboard(unittest.TestCase):
 
 
     def test_get_users_private_chirps(self):
-        birdy = Birdy()
+        birdy = self.make_fresh_birdy()
         chirp1 = birdy.create_chirp(1, 'A directed secret', to=2, private=True)
         chirp2 = birdy.create_chirp(2, 'A secret response', parent=1, private=True)
         chirp3 = birdy.create_chirp(2, 'Someone else\'s private thread', to=3, private=True)
@@ -58,7 +76,7 @@ class TestBirdyboard(unittest.TestCase):
 
 
     def test_get_chirps_from_thread(self):
-        birdy = Birdy()
+        birdy = self.make_fresh_birdy()
         chirp1 = birdy.create_chirp(1, 'An initial message')
         chirp2 = birdy.create_chirp(2, 'A solid response', parent=1)
         chirp3 = birdy.create_chirp(1, 'A quick rebuttal', parent=2)
@@ -73,7 +91,7 @@ class TestBirdyboard(unittest.TestCase):
 
 
     def test_make_new_public_chirp(self):
-        birdy = Birdy()
+        birdy = self.make_fresh_birdy()
         chirp = birdy.create_chirp(1, 'An initial message')
 
         self.assertNotEqual(chirp.id, 0)
@@ -85,7 +103,7 @@ class TestBirdyboard(unittest.TestCase):
 
 
     def test_make_reply_public_chirp(self):
-        birdy = Birdy()
+        birdy = self.make_fresh_birdy()
         parent = birdy.create_chirp(1, 'An initial message')
         reply = birdy.create_chirp(2, 'A solid response', parent=1)
 
@@ -101,7 +119,7 @@ class TestBirdyboard(unittest.TestCase):
 
 
     def test_make_new_private_chirp(self):
-        birdy = Birdy()
+        birdy = self.make_fresh_birdy()
         chirp = birdy.create_chirp(1, 'A directed secret', to=2, private=True)
 
         self.assertNotEqual(chirp.id, 0)
@@ -113,7 +131,7 @@ class TestBirdyboard(unittest.TestCase):
 
 
     def test_make_reply_private_chirp(self):
-        birdy = Birdy()
+        birdy = self.make_fresh_birdy()
         birdy.create_chirp(1, 'A directed secret', to=2, private=True)
         chirp = birdy.create_chirp(2, 'A secret response', parent=1, private=True)
 
